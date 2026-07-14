@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import { Product } from '@/lib/types';
 import ProductCard from './ProductCard';
 import ProductSkeleton from './ProductSkeleton';
+import ProductModal from './ProductModal';
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -105,11 +107,22 @@ export default function FeaturedProducts() {
         {!loading && !error && products.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mt-12">
             {products.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                index={index}
+                onViewDetails={(p) => setSelectedProduct(p)}
+              />
             ))}
           </div>
         )}
       </div>
+
+      {/* Product Quick View Modal */}
+      <ProductModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
     </section>
   );
 }

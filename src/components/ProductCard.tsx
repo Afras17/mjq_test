@@ -7,12 +7,17 @@ import { Product } from '@/lib/types';
 interface ProductCardProps {
   product: Product;
   index?: number;
+  onViewDetails?: (product: Product) => void;
 }
 
-export default function ProductCard({ product, index = 0 }: ProductCardProps) {
+export default function ProductCard({ product, index = 0, onViewDetails }: ProductCardProps) {
   const [imgError, setImgError] = useState(false);
 
   const formattedPrice = `Dhs. ${product.price.toLocaleString()}`;
+
+  if (imgError || !product.image_url) {
+    return null;
+  }
 
   return (
     <div
@@ -50,7 +55,10 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
 
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 flex items-center justify-center">
-          <button className="btn-luxury text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0">
+          <button 
+            onClick={() => onViewDetails?.(product)}
+            className="btn-luxury text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0"
+          >
             View Details
           </button>
         </div>
