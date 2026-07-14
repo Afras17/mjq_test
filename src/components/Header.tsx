@@ -18,6 +18,34 @@ export default function Header() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const isHash = href.startsWith('#');
+    const isHome = href === '/';
+
+    if (isHash || isHome) {
+      e.preventDefault();
+      if (isHome) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const id = href.substring(1);
+        const element = document.getElementById(id);
+        if (element) {
+          const offset = 80; // approximate sticky header height
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          });
+        }
+      }
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -83,6 +111,7 @@ export default function Header() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className={`nav-link text-sm tracking-[0.1em] uppercase py-1 ${
                       !isScrolled ? 'text-white hover:text-gold' : ''
                     }`}
@@ -178,7 +207,7 @@ export default function Header() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={(e) => handleNavClick(e, link.href)}
                       className="block py-3 text-text dark:text-gray-200 text-sm tracking-[0.1em] uppercase
                                  hover:text-gold transition-colors border-b border-border/30 dark:border-dark-border/30"
                     >
