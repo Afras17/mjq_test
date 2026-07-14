@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Product } from '@/lib/types';
 
@@ -47,11 +47,26 @@ const getProductDescription = (product: Product) => {
 export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+
+  // Reset exiting state when product changes
+  useEffect(() => {
+    if (product) {
+      setIsExiting(false);
+    }
+  }, [product]);
+
+  const handleClose = useCallback(() => {
+    setIsExiting(true);
+    setTimeout(() => {
+      onClose();
+    }, 300); // 300ms matches animation duration
+  }, [onClose]);
 
   // Close on ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') handleClose();
     };
     if (product) {
       document.addEventListener('keydown', handleKeyDown);
@@ -61,7 +76,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [product, onClose]);
+  }, [product, handleClose]);
 
   if (!product) return null;
 
@@ -72,7 +87,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     setAdded(true);
     setTimeout(() => {
       setAdded(false);
-      onClose();
+      handleClose();
     }, 1500);
   };
 
@@ -80,15 +95,19 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
-        onClick={onClose}
+        className={`absolute inset-0 bg-black/60 backdrop-blur-sm ${
+          isExiting ? 'animate-fade-out' : 'animate-fade-in'
+        }`}
+        onClick={handleClose}
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-4xl bg-white dark:bg-dark-card rounded-luxury shadow-luxury overflow-hidden animate-scale-in">
+      <div className={`relative w-full max-w-4xl bg-white dark:bg-dark-card rounded-luxury shadow-luxury overflow-hidden ${
+        isExiting ? 'animate-scale-out' : 'animate-scale-in'
+      }`}>
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 z-10 p-2 text-text/60 dark:text-gray-400 hover:text-gold dark:hover:text-gold transition-colors duration-300"
           aria-label="Close details"
         >

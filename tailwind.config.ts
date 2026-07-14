@@ -66,6 +66,14 @@ const config: Config = {
           "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
         },
+        "scale-out": {
+          "0%": { opacity: "1", transform: "scale(1)" },
+          "100%": { opacity: "0", transform: "scale(0.95)" },
+        },
+        "fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
         "gold-line": {
           "0%": { width: "0%" },
           "100%": { width: "80px" },
@@ -73,10 +81,12 @@ const config: Config = {
       },
       animation: {
         "fade-in": "fade-in 0.6s ease-out forwards",
+        "fade-out": "fade-out 0.3s ease-in forwards",
         "slide-up": "slide-up 0.8s ease-out forwards",
         "slide-down": "slide-down 0.3s ease-out forwards",
         "shimmer": "shimmer 2s infinite linear",
         "scale-in": "scale-in 0.5s ease-out forwards",
+        "scale-out": "scale-out 0.3s ease-in forwards",
         "gold-line": "gold-line 1s ease-out 0.5s forwards",
       },
       transitionTimingFunction: {
