@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════
+   LUXURY.AE — Global Styles
+   Premium luxury e-commerce design system
+   ═══════════════════════════════════════════ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-ivory text-text font-inter;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  /* Dark mode body */
+  .dark body {
+    @apply bg-dark-bg text-gray-100;
+  }
+
+  ::selection {
+    @apply bg-gold/30 text-deep;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-cream;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-dark-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gold/40 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gold/60;
+  }
+}
+
+@layer components {
+  /* Gold underline hover effect for nav links */
+  .nav-link {
+    @apply relative text-text dark:text-gray-200 transition-colors duration-300;
+  }
+
+  .nav-link::after {
+    content: "";
+    @apply absolute left-0 bottom-0 w-0 h-[1.5px] bg-gold transition-all duration-300 ease-luxury;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .nav-link:hover {
+    @apply text-gold;
+  }
+
+  /* Luxury button styles */
+  .btn-luxury {
+    @apply relative inline-flex items-center justify-center px-8 py-3.5
+           border border-gold text-white bg-transparent
+           font-inter text-sm tracking-[0.15em] uppercase
+           transition-all duration-300 ease-luxury
+           hover:bg-gold hover:text-deep
+           focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2
+           active:scale-[0.98];
+  }
+
+  .btn-luxury-filled {
+    @apply relative inline-flex items-center justify-center px-8 py-3.5
+           border border-gold text-deep bg-gold
+           font-inter text-sm tracking-[0.15em] uppercase
+           transition-all duration-300 ease-luxury
+           hover:bg-gold-dark hover:border-gold-dark
+           focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2
+           active:scale-[0.98];
+  }
+
+  /* Product card */
+  .product-card {
+    @apply bg-white dark:bg-dark-card rounded-luxury shadow-card
+           transition-all duration-300 ease-luxury
+           hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-16 md:py-20 lg:py-section px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Container */
+  .luxury-container {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Gold divider */
+  .gold-divider {
+    @apply w-0 h-[2px] bg-gold animate-gold-line;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    @apply bg-gradient-to-r from-cream via-white to-cream dark:from-dark-card dark:via-dark-border dark:to-dark-card
+           bg-[length:200%_100%] animate-shimmer rounded-luxury;
+  }
+
+  /* Section title */
+  .section-title {
+    @apply font-playfair text-section text-deep dark:text-white text-center;
+  }
+
+  .section-subtitle {
+    @apply text-text/60 dark:text-gray-400 text-center text-base md:text-lg max-w-2xl mx-auto mt-4;
+  }
+}
+
+@layer utilities {
+  /* Animation delays for staggered effects */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
